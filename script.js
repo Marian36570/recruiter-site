@@ -12,7 +12,6 @@ async function loadJobs() {
     const res = await fetch(jobsUrl);
     jobsList = await res.json();
 
-    // Показ вакансій
     jobsContainer.innerHTML = jobsList.map(job => `
       <div class="job-card">
         <img src="${job.image}" alt="${job.title}" />
@@ -24,7 +23,6 @@ async function loadJobs() {
       </div>
     `).join("");
 
-    // Заповнення селектора вакансій у формі
     jobSelect.innerHTML = jobsList.map(job => `
       <option value="${job.title}">${job.title}</option>
     `).join("");
@@ -34,27 +32,30 @@ async function loadJobs() {
   }
 }
 
+// Ініціалізація EmailJS з відкритим ключем
+emailjs.init("Dx57A1q8VUKvdmwN9");
+
 form.addEventListener("submit", e => {
   e.preventDefault();
 
-  // Збір даних форми
   const formData = {
-    name: form.name.value.trim(),
-    email: form.email.value.trim(),
+    name: form.name.value,
+    email: form.email.value,
     job: form.job.value,
-    message: form.message.value.trim()
+    message: form.message.value,
   };
 
-  // Відправка через EmailJS
-  emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", formData)
+  formStatus.textContent = "Отправка...";
+
+  emailjs.send("service_5tjdkih", "template_6ch5tei", formData)
     .then(() => {
-      formStatus.textContent = "Заявка отправлена успешно!";
+      formStatus.textContent = "Спасибо! Ваша заявка отправлена.";
       form.reset();
     })
-    .catch(() => {
-      formStatus.textContent = "Ошибка при отправке заявки.";
+    .catch((error) => {
+      console.error("Ошибка при отправке:", error);
+      formStatus.textContent = "Ошибка при отправке. Попробуйте позже.";
     });
 });
 
-// Завантажуємо вакансії при старті
 loadJobs();
