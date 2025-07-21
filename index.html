@@ -1,56 +1,40 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Вакансии от Рекрутера</title>
-  <style>
-    body { font-family: Arial, sans-serif; max-width: 800px; margin: auto; padding: 20px; }
-    h1, h2 { color: #333; }
-    .job { margin-bottom: 20px; border-bottom: 1px solid #ccc; padding-bottom: 10px; }
-    form { margin-top: 40px; }
-    input, textarea { width: 100%; padding: 10px; margin: 10px 0; }
-    button { padding: 10px 20px; background-color: #007BFF; color: white; border: none; cursor: pointer; }
-  </style>
-  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-  <script>
-    (function(){
-      emailjs.init("Dx57A1q8VUKvdmwN9");
-    })();
-    function sendEmail(e) {
-      e.preventDefault();
-      emailjs.sendForm('default_service', 'template_6ch5tei', e.target)
-        .then(() => {
-          alert('Форма надіслана! Ми зв’яжемося з вами.');
-          e.target.reset();
-        }, (error) => {
-          alert('Помилка при надсиланні. Спробуйте пізніше.');
-          console.log(error);
-        });
-    }
-  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Вакансии</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>Актуальні вакансії</h1>
-  <div class="job">Работник на производстве куриной продукции</div>
-  <div class="job">Помощник на производство элементов из арматуры (Германия)</div>
-  <div class="job">Производство металлических деталей</div>
-  <div class="job">Оператор обслуживания машин</div>
-  <div class="job">Работник сбора грибов</div>
-  <div class="job">... (інші вакансії додай вручну у коді)</div>
+  <header>
+    <h1>Вакансии</h1>
+  </header>
 
-  <h2>Залишити заявку</h2>
-  <form onsubmit="sendEmail(event)">
-    <label>Ім’я</label>
-    <input type="text" name="name" required />
-    <label>Email</label>
-    <input type="email" name="email" required />
-    <label>Вакансія</label>
-    <input type="text" name="vacancy" required />
-    <label>Повідомлення</label>
-    <textarea name="message" rows="4" required></textarea>
-    <button type="submit">Надіслати</button>
-  </form>
+  <main>
+    <div id="jobs-container" class="jobs-container"></div>
+
+    <section class="application-form">
+      <h2>Откликнуться на вакансию</h2>
+      <form id="apply-form">
+        <label for="name">Имя:</label>
+        <input id="name" name="name" required />
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required />
+
+        <label for="job">Вакансия:</label>
+        <select id="job" name="job" required></select>
+
+        <label for="message">Сообщение:</label>
+        <textarea id="message" name="message" rows="4"></textarea>
+
+        <button type="submit">Отправить</button>
+      </form>
+      <div id="form-status"></div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
 </body>
 </html>
